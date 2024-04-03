@@ -63,8 +63,8 @@ class TaskManager {
       return;
     }
 
-    if (status != null && status != 'pending' && status != 'completed') {
-      print('Invalid status. The status can only be "pending" or "completed".');
+    if ((status != null && status != 'pending' && status != 'completed') || title == '' || description == '') {
+      print('Invalid update. Input the right details.');
       return;
     }
 
@@ -103,7 +103,7 @@ void main() {
   newTaskManager.addTask(newTask2);
   newTaskManager.addTask(newTask3);
   newTaskManager.editTask(1, title: 'Updated Standup Meeting');
-  newTaskManager.editTask(0, status: 'completed');
+  newTaskManager.editTask(0, description: '');
   newTaskManager.viewTasks();
   newTaskManager.viewPendingTasks();
   newTaskManager.viewCompletedTasks();

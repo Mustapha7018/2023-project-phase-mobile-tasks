@@ -28,9 +28,16 @@ class TaskManager {
 
 
   void viewTasks() {
+
+    bool flag = true;
     
     for (var task in tasks) {
+      flag = false;
       print(task);
+    }
+
+    if (flag) {
+      print('No tasks available');
     }
   }
 
@@ -103,7 +110,7 @@ void main() {
   newTaskManager.addTask(newTask2);
   newTaskManager.addTask(newTask3);
   newTaskManager.editTask(1, title: 'Updated Standup Meeting');
-  newTaskManager.editTask(0, description: '');
+  newTaskManager.editTask(0, description: 'Solve two leetcode problems');
   newTaskManager.viewTasks();
   newTaskManager.viewPendingTasks();
   newTaskManager.viewCompletedTasks();
@@ -111,3 +118,5 @@ void main() {
   newTaskManager.deleteTask(2); 
   newTaskManager.viewTasks();
 }
+
+

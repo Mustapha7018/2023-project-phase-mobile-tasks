@@ -17,6 +17,12 @@ class TaskManager {
   List<Task> tasks = [];
   
   void addTask(Task newTask) {
+
+    if (newTask.title == '' || newTask.description == '') {
+      print('Invalid task! Make sure you provide the right details');
+      return;
+    }
+
     tasks.add(newTask);
   }
 
@@ -50,10 +56,15 @@ class TaskManager {
   }
 
   
-  void editTask(int index, {String? title, description, status, DateTime? dueDate}) {
-    
+  void editTask(int index, {String? title, String? description, String? status, DateTime? dueDate}) {
+
     if (index < 0 || index >= tasks.length) {
       print('The task you are trying to edit does not exist.');
+      return;
+    }
+
+    if (status != null && status != 'pending' && status != 'completed') {
+      print('Invalid status. The status can only be "pending" or "completed".');
       return;
     }
 
@@ -65,6 +76,7 @@ class TaskManager {
   }
 
 
+
   void deleteTask(int index) {
     
     if (index < 0 || index >= tasks.length) {
@@ -74,6 +86,7 @@ class TaskManager {
 
     tasks.removeAt(index);
     print('Task deleted successfully.');
+
 
   }
 }
@@ -98,5 +111,3 @@ void main() {
   newTaskManager.deleteTask(2); 
   newTaskManager.viewTasks();
 }
-
-

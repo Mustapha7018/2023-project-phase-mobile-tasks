@@ -36,14 +36,12 @@ class TasksDetailView extends StatelessWidget {
           ),
         ],
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Center(
               child: Image.asset('assets/shopping_list.png'),
             ),
-        
             Padding(
               padding: const EdgeInsets.all(30),
               child: Column(
@@ -53,14 +51,12 @@ class TasksDetailView extends StatelessWidget {
                     'Title',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-        
                   Container(
                     margin: const EdgeInsets.only(top: 15, bottom: 30),
                     decoration: BoxDecoration(
                       color: const Color.fromRGBO(241, 238, 238, 1),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-        
                     child: const TextField(
                       enabled: false,
                       decoration: InputDecoration(
@@ -68,19 +64,16 @@ class TasksDetailView extends StatelessWidget {
                         filled: true,
                         fillColor: Colors.transparent,
                         hintText: 'UI/UX Designer',
-                        hintStyle:
-                            TextStyle(fontSize: 18, color: Colors.black),
+                        hintStyle: TextStyle(fontSize: 18, color: Colors.black),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                       ),
                     ),
                   ),
-        
                   const Text(
                     'Description',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-        
                   Container(
                     margin: const EdgeInsets.only(top: 15, bottom: 30),
                     height: 120,
@@ -88,7 +81,6 @@ class TasksDetailView extends StatelessWidget {
                       color: const Color.fromRGBO(241, 238, 238, 1),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    
                     child: const TextField(
                       enabled: false,
                       keyboardType: TextInputType.multiline,
@@ -97,28 +89,24 @@ class TasksDetailView extends StatelessWidget {
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
-                        hintText: 
-                        'First, I have to animate the logo\n and prototype my design\n Very important.',
-                        hintStyle:
-                            TextStyle(fontSize: 18, color: Colors.black),
+                        hintText:
+                            'First, I have to animate the logo\n and prototype my design\n Very important.',
+                        hintStyle: TextStyle(fontSize: 18, color: Colors.black),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       ),
                     ),
                   ),
-        
                   const Text(
                     'Deadline',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-        
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     decoration: BoxDecoration(
                       color: const Color.fromRGBO(241, 238, 238, 1),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-        
                     child: const TextField(
                       enabled: false,
                       decoration: InputDecoration(
@@ -126,8 +114,7 @@ class TasksDetailView extends StatelessWidget {
                         filled: true,
                         fillColor: Colors.transparent,
                         hintText: 'April. 29, 2023',
-                        hintStyle:
-                            TextStyle(fontSize: 18, color: Colors.black),
+                        hintStyle: TextStyle(fontSize: 18, color: Colors.black),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                       ),

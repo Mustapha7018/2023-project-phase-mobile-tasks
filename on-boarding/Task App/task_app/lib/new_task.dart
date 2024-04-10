@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:task_app/task_detail.dart';
-
 class NewTaskView extends StatefulWidget {
   const NewTaskView({super.key});
 
@@ -40,7 +38,6 @@ class _NewTaskViewState extends State<NewTaskView> {
           ),
         ],
       ),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,12 +52,10 @@ class _NewTaskViewState extends State<NewTaskView> {
                 ),
               ),
             ),
-
             const Divider(
               color: Colors.grey,
               thickness: 1,
             ),
-
             Container(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -78,7 +73,6 @@ class _NewTaskViewState extends State<NewTaskView> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-
                   Container(
                     height: 125,
                     padding:
@@ -99,7 +93,6 @@ class _NewTaskViewState extends State<NewTaskView> {
                       ),
                     ),
                   ),
-
                   const Padding(
                     padding: EdgeInsets.only(left: 30),
                     child: Text(
@@ -122,21 +115,27 @@ class _NewTaskViewState extends State<NewTaskView> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       elevation: 4,
-                      child: const TextField(
+                      child: TextField(
                         textAlign: TextAlign.left,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'April 29, 2024 12:30 AM',
-                          hintStyle: TextStyle(fontSize: 20),
-                          contentPadding: EdgeInsets.symmetric(
+                          hintText: 'yyyy-mm-dd',
+                          hintStyle: const TextStyle(fontSize: 20),
+                          contentPadding: const EdgeInsets.symmetric(
                               horizontal: 25, vertical: 25),
                           suffixIcon: Padding(
-                            padding: EdgeInsetsDirectional.only(end: 18),
-                            child: Icon(
-                              Icons.event,
-                              color: Color.fromRGBO(238, 111, 87, 1),
-                              size: 30,
+                            padding: const EdgeInsetsDirectional.only(end: 18),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.event,
+                                color: Color.fromRGBO(238, 111, 87, 1),
+                                size: 30,
+                              ),
+                                onPressed: () {
+                                  showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime(2025, 1, 1));
+                                },
                             ),
+                    
                           ),
                         ),
                       ),
@@ -155,7 +154,6 @@ class _NewTaskViewState extends State<NewTaskView> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-
                   Container(
                     height: 125,
                     padding:
@@ -178,7 +176,6 @@ class _NewTaskViewState extends State<NewTaskView> {
                       ),
                     ),
                   ),
-
                   Center(
                     child: Container(
                       margin: const EdgeInsets.only(top: 60),
@@ -192,17 +189,10 @@ class _NewTaskViewState extends State<NewTaskView> {
                           backgroundColor:
                               const Color.fromRGBO(238, 111, 87, 1),
                         ),
-
                         onPressed: () {
                           // Route to Task Detail
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const TasksDetailView(),
-                            ),
-                          );
+                          Navigator.pushNamed(context, '/taskDetail');
                         },
-
                         child: const Text(
                           'Add Task',
                           style: TextStyle(

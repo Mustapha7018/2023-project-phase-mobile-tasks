@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:task_app/task_list.dart';
-
 class SplashScreenView extends StatelessWidget {
   const SplashScreenView({super.key});
 
@@ -19,7 +17,6 @@ class SplashScreenView extends StatelessWidget {
                 flex: 7,
                 child: Image.asset('assets/stick_man.png'),
               ),
-
               Expanded(
                 flex: 1,
                 child: Container(
@@ -32,17 +29,10 @@ class SplashScreenView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 120),
                       backgroundColor: const Color.fromRGBO(12, 140, 233, 1),
                     ),
-
                     onPressed: () {
                       // Route to Task Lists
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TaskListView(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/taskList');
                     },
-                    
                     child: const Text(
                       'Get Started',
                       style: TextStyle(

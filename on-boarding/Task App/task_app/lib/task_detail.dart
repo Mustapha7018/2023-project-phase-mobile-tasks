@@ -42,6 +42,7 @@ class TasksDetailView extends StatelessWidget {
             Center(
               child: Image.asset('assets/shopping_list.png'),
             ),
+
             Padding(
               padding: const EdgeInsets.all(30),
               child: Column(
@@ -58,22 +59,23 @@ class TasksDetailView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const TextField(
-                      enabled: false,
+                      keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
-                        hintText: 'UI/UX Designer',
-                        hintStyle: TextStyle(fontSize: 18, color: Colors.black),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                       ),
                     ),
                   ),
+
+
                   const Text(
                     'Description',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
+
                   Container(
                     margin: const EdgeInsets.only(top: 15, bottom: 30),
                     height: 120,
@@ -82,25 +84,25 @@ class TasksDetailView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const TextField(
-                      enabled: false,
+                      // enabled: false,
                       keyboardType: TextInputType.multiline,
-                      maxLines: null,
+                      maxLines: 2,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
-                        hintText:
-                            'First, I have to animate the logo\n and prototype my design\n Very important.',
-                        hintStyle: TextStyle(fontSize: 18, color: Colors.black),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                       ),
                     ),
                   ),
+
+
                   const Text(
                     'Deadline',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
+                  
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     decoration: BoxDecoration(
@@ -108,13 +110,11 @@ class TasksDetailView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const TextField(
-                      enabled: false,
+                      keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
-                        hintText: 'April. 29, 2023',
-                        hintStyle: TextStyle(fontSize: 18, color: Colors.black),
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                       ),

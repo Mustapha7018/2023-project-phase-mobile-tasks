@@ -82,6 +82,7 @@ class TaskListView extends StatelessWidget {
                       horizontal: 18,
                       vertical: 10,
                     ),
+
                     child: Card(
                       surfaceTintColor: Colors.white,
                       borderOnForeground: true,
@@ -103,6 +104,8 @@ class TaskListView extends StatelessWidget {
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
+
+
                         title: const Text(
                           'UI/UX App \nDesign',
                           style: TextStyle(
@@ -121,6 +124,7 @@ class TaskListView extends StatelessWidget {
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400),
                             ),
+                            
                             const SizedBox(width: 10),
                             Container(
                               height: 60,

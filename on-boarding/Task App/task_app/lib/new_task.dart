@@ -38,6 +38,8 @@ class _NewTaskViewState extends State<NewTaskView> {
           ),
         ],
       ),
+
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,10 +54,13 @@ class _NewTaskViewState extends State<NewTaskView> {
                 ),
               ),
             ),
+
             const Divider(
               color: Colors.grey,
               thickness: 1,
             ),
+
+
             Container(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -66,39 +71,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                     child: Text(
                       'Main task name',
                       style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(238, 111, 87, 1),
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Container(
-                    height: 125,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
-                      elevation: 4,
-                      child: const TextField(
-                        textAlign: TextAlign.left,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'UI/UX Design',
-                          hintStyle: TextStyle(fontSize: 20),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 25),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 30),
-                    child: Text(
-                      'Due date',
-                      style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 19,
                         fontWeight: FontWeight.bold,
                         color: Color.fromRGBO(238, 111, 87, 1),
                       ),
@@ -107,35 +80,104 @@ class _NewTaskViewState extends State<NewTaskView> {
                   ),
 
                   Container(
-                    height: 125,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(255, 136, 136, 136)
+                              .withOpacity(0.1),
+                          spreadRadius: 1.0,
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 15,
+                    ),
                     child: Card(
+                      surfaceTintColor: Colors.white,
+                      borderOnForeground: true,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(25.0)),
+                      child: const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: TextField(
+                          keyboardType: TextInputType.name,
+                          textAlign: TextAlign.left,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Eg. UI/UX Design',
+                            hintStyle: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(137, 137, 137, 1)),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 20),
+                          ),
+                        ),
                       ),
-                      elevation: 4,
-                      child: TextField(
-                        textAlign: TextAlign.left,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'yyyy-mm-dd',
-                          hintStyle: const TextStyle(fontSize: 20),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 25),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsetsDirectional.only(end: 18),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.event,
-                                color: Color.fromRGBO(238, 111, 87, 1),
-                                size: 30,
-                              ),
+                    ),
+                  ),
+
+                  const Padding(
+                    padding: EdgeInsets.only(left: 30),
+                    child: Text(
+                      'Due date',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(238, 111, 87, 1),
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(255, 136, 136, 136)
+                              .withOpacity(0.1),
+                          spreadRadius: 1.0,
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 15,
+                    ),
+                    child: Card(
+                      surfaceTintColor: Colors.white,
+                      borderOnForeground: true,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: TextField(
+                          keyboardType: TextInputType.datetime,
+                          textAlign: TextAlign.left,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'yyyy-mm-dd',
+                            hintStyle: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(137, 137, 137, 1)),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 20),
+                            suffixIcon: Padding(
+                              padding: const EdgeInsetsDirectional.only(end: 1),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.event,
+                                  color: Color.fromRGBO(238, 111, 87, 1),
+                                  size: 24,
+                                ),
                                 onPressed: () {
-                                  showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime(2025, 1, 1));
+                                  showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2025, 1, 1));
                                 },
+                              ),
                             ),
-                    
                           ),
                         ),
                       ),
@@ -147,35 +189,50 @@ class _NewTaskViewState extends State<NewTaskView> {
                     child: Text(
                       'Description',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 19,
                         fontWeight: FontWeight.bold,
                         color: Color.fromRGBO(238, 111, 87, 1),
                       ),
                       textAlign: TextAlign.left,
                     ),
                   ),
+
                   Container(
-                    height: 125,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(255, 136, 136, 136)
+                              .withOpacity(0.1),
+                          spreadRadius: 1.0,
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 15,
+                    ),
                     child: Card(
+                      surfaceTintColor: Colors.white,
+                      borderOnForeground: true,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
-                      elevation: 4,
-                      child: const TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        textAlign: TextAlign.left,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          // hintText: 'April 29, 2024 12:30 AM',
-                          hintStyle: TextStyle(fontSize: 20),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 25),
+                          borderRadius: BorderRadius.circular(25.0)),
+                      child: const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: TextField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 3,
+                          textAlign: TextAlign.left,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 20),
+                          ),
                         ),
                       ),
                     ),
                   ),
+
+                  
                   Center(
                     child: Container(
                       margin: const EdgeInsets.only(top: 60),
@@ -213,3 +270,5 @@ class _NewTaskViewState extends State<NewTaskView> {
     );
   }
 }
+
+

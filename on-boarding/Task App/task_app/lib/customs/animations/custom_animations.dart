@@ -15,3 +15,10 @@ class CustomSlideAnimation extends PageRouteBuilder {
         child: child,
       );
 }
+
+// class CustomPopUpAnimation extends PageRouteBuilder {
+//   final Widget child;
+
+//   CustomPopUpAnimation({required this.child})
+//       : super(pageBuilder: (context, animation, secondaryAnimation) => child);
+// }

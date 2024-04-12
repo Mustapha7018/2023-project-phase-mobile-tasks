@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+// import 'package:task_app/customs/functions/random_colors.dart';
 
 class NewTaskView extends StatefulWidget {
   const NewTaskView({super.key});
@@ -8,7 +10,26 @@ class NewTaskView extends StatefulWidget {
 }
 
 class _NewTaskViewState extends State<NewTaskView> {
-  DateTime? dueDate;
+  String name = '';
+  String description = '';
+  DateTime? date;
+
+  String formatDate(DateTime date) {
+    final formater = DateFormat('MMM dd, yyy');
+    return formater.format(date);
+  }
+
+  void showingDatePicker() async {
+    DateTime? response = await showDatePicker(
+        context: context,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2025, 1, 1));
+    if (response != null) {
+      setState(() {
+        date = response;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +59,7 @@ class _NewTaskViewState extends State<NewTaskView> {
           ),
         ],
       ),
-
-
+      
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,12 +74,10 @@ class _NewTaskViewState extends State<NewTaskView> {
                 ),
               ),
             ),
-
             const Divider(
               color: Colors.grey,
               thickness: 1,
             ),
-
 
             Container(
               padding: const EdgeInsets.all(20),
@@ -98,12 +116,15 @@ class _NewTaskViewState extends State<NewTaskView> {
                       borderOnForeground: true,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0)),
-                      child: const Padding(
-                        padding: EdgeInsets.all(6.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
                         child: TextField(
+                          onChanged: (val) {
+                            name = val;
+                          },
                           keyboardType: TextInputType.name,
                           textAlign: TextAlign.left,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Eg. UI/UX Design',
                             hintStyle: TextStyle(
@@ -152,11 +173,13 @@ class _NewTaskViewState extends State<NewTaskView> {
                       child: Padding(
                         padding: const EdgeInsets.all(6.0),
                         child: TextField(
-                          keyboardType: TextInputType.datetime,
+                          controller: TextEditingController(
+                              text: date == null
+                                  ? 'Select a date'
+                                  : formatDate(date!)),
                           textAlign: TextAlign.left,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'yyyy-mm-dd',
                             hintStyle: const TextStyle(
                                 fontSize: 16,
                                 color: Color.fromRGBO(137, 137, 137, 1)),
@@ -171,10 +194,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                                   size: 24,
                                 ),
                                 onPressed: () {
-                                  showDatePicker(
-                                      context: context,
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime(2025, 1, 1));
+                                  showingDatePicker();
                                 },
                               ),
                             ),
@@ -216,13 +236,16 @@ class _NewTaskViewState extends State<NewTaskView> {
                       borderOnForeground: true,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0)),
-                      child: const Padding(
-                        padding: EdgeInsets.all(6.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
                         child: TextField(
+                          onChanged: (val) {
+                            description = val;
+                          },
                           keyboardType: TextInputType.multiline,
                           maxLines: 3,
                           textAlign: TextAlign.left,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 20),
@@ -232,7 +255,6 @@ class _NewTaskViewState extends State<NewTaskView> {
                     ),
                   ),
 
-                  
                   Center(
                     child: Container(
                       margin: const EdgeInsets.only(top: 60),
@@ -246,10 +268,16 @@ class _NewTaskViewState extends State<NewTaskView> {
                           backgroundColor:
                               const Color.fromRGBO(238, 111, 87, 1),
                         ),
+
                         onPressed: () {
-                          // Route to Task Detail
-                          Navigator.pushNamed(context, '/taskDetail');
+                          Map<String, Object> data = {
+                            'name': name,
+                            'description': description,
+                            'date': date!,
+                          };
+                          Navigator.pop(context, data);
                         },
+
                         child: const Text(
                           'Add Task',
                           style: TextStyle(
@@ -270,5 +298,3 @@ class _NewTaskViewState extends State<NewTaskView> {
     );
   }
 }
-
-

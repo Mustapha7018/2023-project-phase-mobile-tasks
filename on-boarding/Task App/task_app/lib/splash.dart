@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:task_app/customs/functions/add_task.dart';
 
 class SplashScreenView extends StatelessWidget {
   const SplashScreenView({super.key});
@@ -17,6 +18,7 @@ class SplashScreenView extends StatelessWidget {
                 flex: 7,
                 child: Image.asset('assets/stick_man.png'),
               ),
+              
               Expanded(
                 flex: 1,
                 child: Container(

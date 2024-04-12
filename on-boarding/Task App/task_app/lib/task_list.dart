@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/widgets.dart';
+import 'package:task_app/customs/functions/random_colors.dart';
+// import 'package:task_app/new_task.dart';
+import 'package:task_app/customs/functions/add_task.dart';
+import 'package:intl/intl.dart';
+import 'package:task_app/task_detail.dart';
 
-class TaskListView extends StatelessWidget {
+class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
+
+  @override
+  State<TaskListView> createState() => _TaskListViewState();
+}
+
+class _TaskListViewState extends State<TaskListView> {
+  List<Task> taskList = [];
+
+  String formatDate(DateTime date) {
+    final formater = DateFormat('MMM dd, yyy');
+    return formater.format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +34,17 @@ class TaskListView extends StatelessWidget {
           ),
           onPressed: () {
             // Back to splash
-            Navigator.pop(context);
+            Navigator.pop(context, taskList);
           },
         ),
+
         leadingWidth: 80,
         title: const Text(
           'Todo List',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.w400, fontSize: 22),
         ),
+
         actions: [
           Container(
             padding: const EdgeInsets.only(right: 25),
@@ -36,6 +56,7 @@ class TaskListView extends StatelessWidget {
           ),
         ],
       ),
+
       body: Column(
         children: <Widget>[
           Expanded(
@@ -59,90 +80,132 @@ class TaskListView extends StatelessWidget {
               ],
             ),
           ),
+
           Expanded(
             flex: 3,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 136, 136, 136)
-                              .withOpacity(0.1),
-                          spreadRadius: 1.0,
-                        ),
-                      ],
-                    ),
+                  ...taskList.map((task) {
+                    return GestureDetector(
+                      onTap: () async {
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   '/taskDetail',
+                        //     arguments: task);
 
-                    // padding: const EdgeInsets.all(3),
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 10,
-                    ),
-
-                    child: Card(
-                      surfaceTintColor: Colors.white,
-                      borderOnForeground: true,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0)),
-                      child: ListTile(
-                        // titleAlignment: ListTileTitleAlignment.top,
-                        // contentPadding: EdgeInsets.zero,
-                        horizontalTitleGap: 20.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        leading: const Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            'U',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w400),
+                        Map<String, Object>? data = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TasksDetailView(),
+                            settings: RouteSettings(
+                                arguments: task, name: '/taskDetail'),
                           ),
-                        ),
+                        );
+                        if (data != null) {
+                          int index = taskList.indexOf(task);
 
+                          setState(() {
+                            if (data['name'] != '' &&
+                                data['description'] != '' &&
+                                data['date'] != null) {
+                              taskList[index] = Task(
+                                  data['name'] as String,
+                                  data['description'] as String,
+                                  DateFormat('MMM dd, yyyy')
+                                      .parse(data['date'] as String),
+                                  getRandomColor());
+                            }
+                          });
+                        }
+                      },
 
-                        title: const Text(
-                          'UI/UX App \nDesign',
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: const Text('3 Tasks'),
-                        trailing: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            const Text(
-                              'April 24, 2024',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            
-                            const SizedBox(width: 10),
-                            Container(
-                              height: 60,
-                              width: 4,
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(59, 219, 56, 1),
-                                borderRadius: BorderRadius.circular(2),
-                              ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color.fromARGB(255, 136, 136, 136)
+                                  .withOpacity(0.1),
+                              spreadRadius: 1.0,
                             ),
                           ],
                         ),
+
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 10,
+                        ),
+
+                        child: Card(
+                          surfaceTintColor: Colors.white,
+                          borderOnForeground: true,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0)),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+
+                            leading: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                task.title[0].toUpperCase(),
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+
+                            title: SizedBox(
+                              width: 10,
+                              child: Text(
+                                task.title,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+
+                            trailing: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  formatDate(task.dueDate),
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400),
+                                ),
+
+                                const SizedBox(width: 10),
+
+                                Container(
+                                  height: 50,
+                                  width: 4,
+                                  decoration: BoxDecoration(
+                                    color: getRandomColor(),
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  })
                 ],
               ),
             ),
           ),
+
+
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 40),
@@ -154,10 +217,26 @@ class TaskListView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 100),
                   backgroundColor: const Color.fromRGBO(238, 111, 87, 1),
                 ),
-                onPressed: () {
-                  // Route to Task Lists
-                  Navigator.pushNamed(context, '/newTask');
+                onPressed: () async {
+                  // Route to Task Detail
+                  // Map<String, Object>? data =
+                  dynamic data = await Navigator.pushNamed(context, '/newTask');
+
+                  if (data != null) {
+                    setState(() {
+                      if (data['name'] != '' &&
+                          data['description'] != '' &&
+                          data['date'] != null) {
+                        taskList.add(Task(
+                            data['name'] as String,
+                            data['description'] as String,
+                            data['date'] as DateTime,
+                            getRandomColor()));
+                      }
+                    });
+                  }
                 },
+                
                 child: const Text(
                   'Create Task',
                   style: TextStyle(

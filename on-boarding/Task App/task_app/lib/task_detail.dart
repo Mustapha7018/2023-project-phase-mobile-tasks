@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:task_app/customs/functions/add_task.dart';
 
-class TasksDetailView extends StatelessWidget {
+class TasksDetailView extends StatefulWidget {
   const TasksDetailView({super.key});
 
   @override
+  State<TasksDetailView> createState() => _TasksDetailViewState();
+}
+
+class _TasksDetailViewState extends State<TasksDetailView> {
+  DateTime? dueDate;
+
+  @override
   Widget build(BuildContext context) {
+    final task = ModalRoute.of(context)!.settings.arguments as Task;
+    final TextEditingController titleController =
+        TextEditingController(text: task.title);
+    final TextEditingController descriptionController =
+        TextEditingController(text: task.description);
+    final TextEditingController deadlineController = TextEditingController(
+        text: DateFormat('MMM dd, yyyy')
+            .format(dueDate == null ? task.dueDate : dueDate!));
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -19,6 +37,7 @@ class TasksDetailView extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+
         leadingWidth: 80,
         title: const Text(
           'Task Detail',
@@ -36,11 +55,15 @@ class TasksDetailView extends StatelessWidget {
           ),
         ],
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Center(
-              child: Image.asset('assets/shopping_list.png'),
+            SizedBox(
+              height: 240,
+              child: Center(
+                child: Image.asset('assets/shopping_list.png'),
+              ),
             ),
 
             Padding(
@@ -58,9 +81,10 @@ class TasksDetailView extends StatelessWidget {
                       color: const Color.fromRGBO(241, 238, 238, 1),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: const TextField(
+                    child: TextFormField(
+                      controller: titleController,
                       keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
@@ -69,7 +93,6 @@ class TasksDetailView extends StatelessWidget {
                       ),
                     ),
                   ),
-
 
                   const Text(
                     'Description',
@@ -83,11 +106,12 @@ class TasksDetailView extends StatelessWidget {
                       color: const Color.fromRGBO(241, 238, 238, 1),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: const TextField(
-                      // enabled: false,
+                    child: TextFormField(
+                      controller: descriptionController,
                       keyboardType: TextInputType.multiline,
-                      maxLines: 2,
-                      decoration: InputDecoration(
+                      maxLines:
+                          null, // Allows the input field to expand as needed
+                      decoration: const InputDecoration(
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
@@ -97,26 +121,90 @@ class TasksDetailView extends StatelessWidget {
                     ),
                   ),
 
-
                   const Text(
                     'Deadline',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-                  
+
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     decoration: BoxDecoration(
                       color: const Color.fromRGBO(241, 238, 238, 1),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: const TextField(
+                    child: TextFormField(
+                      controller: deadlineController,
                       keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Colors.transparent,
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 25, horizontal: 15),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 1),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.event,
+                              color: Color.fromRGBO(238, 111, 87, 1),
+                              size: 24,
+                            ),
+                            onPressed: () async {
+                              final DateTime? picked = await showDatePicker(
+                                context: context,
+                                initialDate: task.dueDate,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2025, 1, 1),
+                              );
+
+                              if (picked != null && picked != task.dueDate) {
+                                setState(() {
+                                  dueDate = picked;
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 60),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 100, vertical: 15),
+                          backgroundColor:
+                              const Color.fromRGBO(238, 111, 87, 1),
+                        ),
+
+                        onPressed: () {
+                          // Route to Task Detail
+                          // Navigator.popUntil(context, '/taskList', arguments: task);
+                          Map<String, Object> data = {
+                            'name': titleController.text,
+                            'description': descriptionController.text,
+                            'date': deadlineController.text,
+                          };
+                          // print(deadlineController.text);
+                          // print(data);
+                          Navigator.pop(context, data);
+                          // Navigator.pop(context);
+                        },
+                        
+                        child: const Text(
+                          'Update Task',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),

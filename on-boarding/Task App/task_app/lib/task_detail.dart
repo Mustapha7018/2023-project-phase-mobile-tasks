@@ -62,7 +62,9 @@ class _TasksDetailViewState extends State<TasksDetailView> {
             SizedBox(
               height: 240,
               child: Center(
-                child: Image.asset('assets/shopping_list.png'),
+                child: Image.asset(
+                  'assets/shopping_list.png',
+                  ),
               ),
             ),
 
@@ -173,6 +175,7 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                     child: Container(
                       margin: const EdgeInsets.only(top: 60),
                       child: ElevatedButton(
+                        key: const Key('Update Button'),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),

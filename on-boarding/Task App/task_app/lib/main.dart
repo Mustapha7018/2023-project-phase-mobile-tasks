@@ -9,6 +9,7 @@ import 'package:task_app/task_list.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       onGenerateRoute: (settings) {
         switch (settings.name) {

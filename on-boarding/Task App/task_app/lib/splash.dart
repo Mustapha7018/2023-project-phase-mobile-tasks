@@ -16,7 +16,10 @@ class SplashScreenView extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 flex: 7,
-                child: Image.asset('assets/stick_man.png'),
+                child: Image.asset(
+                  key: const Key('Stickman Image'),
+                  'assets/stick_man.png',
+                  ),
               ),
               
               Expanded(
@@ -24,6 +27,7 @@ class SplashScreenView extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 25),
                   child: ElevatedButton(
+                    key: const Key('Elevated Button'),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),

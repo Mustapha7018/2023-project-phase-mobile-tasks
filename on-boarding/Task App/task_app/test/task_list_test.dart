@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:task_app/customs/functions/add_task.dart';
 
+import 'package:task_app/customs/functions/add_task.dart';
 import 'package:task_app/task_detail.dart';
 import 'package:task_app/task_list.dart';
+
 import 'utils.dart';
 
 void main() {
@@ -32,7 +33,7 @@ void main() {
 
   testWidgets('Test Task Details', (WidgetTester tester) async {
     final key = GlobalKey<NavigatorState>();
-    final args = Task('My task', 'abc', DateTime.now(), Colors.red);
+    final args = Task('My task', 'abc', DateTime.now());
     await tester.pumpWidget(
       MaterialApp(
         navigatorKey: key,

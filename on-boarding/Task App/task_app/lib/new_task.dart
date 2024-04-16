@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
-// import 'package:task_app/customs/functions/random_colors.dart';
+
+import 'package:task_app/customs/functions/add_task.dart';
+
 
 class NewTaskView extends StatefulWidget {
   const NewTaskView({super.key});
@@ -47,6 +50,7 @@ class _NewTaskViewState extends State<NewTaskView> {
             Navigator.pop(context);
           },
         ),
+
         leadingWidth: 80,
         actions: [
           Container(
@@ -59,7 +63,8 @@ class _NewTaskViewState extends State<NewTaskView> {
           ),
         ],
       ),
-      
+
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,10 +79,12 @@ class _NewTaskViewState extends State<NewTaskView> {
                 ),
               ),
             ),
+
             const Divider(
               color: Colors.grey,
               thickness: 1,
             ),
+
 
             Container(
               padding: const EdgeInsets.all(20),
@@ -97,6 +104,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                     ),
                   ),
 
+
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
@@ -111,6 +119,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                     margin: const EdgeInsets.symmetric(
                       vertical: 15,
                     ),
+
                     child: Card(
                       surfaceTintColor: Colors.white,
                       borderOnForeground: true,
@@ -137,6 +146,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                       ),
                     ),
                   ),
+
 
                   const Padding(
                     padding: EdgeInsets.only(left: 30),
@@ -204,6 +214,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                     ),
                   ),
 
+
                   const Padding(
                     padding: EdgeInsets.only(left: 30),
                     child: Text(
@@ -255,6 +266,7 @@ class _NewTaskViewState extends State<NewTaskView> {
                     ),
                   ),
 
+                  
                   Center(
                     child: Container(
                       margin: const EdgeInsets.only(top: 60),
@@ -268,16 +280,14 @@ class _NewTaskViewState extends State<NewTaskView> {
                           backgroundColor:
                               const Color.fromRGBO(238, 111, 87, 1),
                         ),
-
                         onPressed: () {
-                          Map<String, Object> data = {
-                            'name': name,
-                            'description': description,
-                            'date': date!,
-                          };
-                          Navigator.pop(context, data);
+                          Task task = Task(
+                            name,
+                            description,
+                            date!,
+                          );
+                          Navigator.pop(context, task);
                         },
-
                         child: const Text(
                           'Add Task',
                           style: TextStyle(

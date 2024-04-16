@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task_app/customs/functions/random_colors.dart';
-// import 'package:task_app/new_task.dart';
-import 'package:task_app/customs/functions/add_task.dart';
+
 import 'package:intl/intl.dart';
+
+import 'package:task_app/customs/functions/add_task.dart';
 import 'package:task_app/task_detail.dart';
 
 class TaskListView extends StatefulWidget {
@@ -14,6 +14,11 @@ class TaskListView extends StatefulWidget {
 
 class _TaskListViewState extends State<TaskListView> {
   List<Task> taskList = [];
+  List<Color> statusColors = [
+    const Color.fromRGBO(255, 81, 81, 1),
+    const Color.fromRGBO(251, 195, 67, 1),
+    const Color.fromRGBO(59, 219, 56, 1)
+    ];
 
   String formatDate(DateTime date) {
     final formater = DateFormat('MMM dd, yyy');
@@ -36,14 +41,12 @@ class _TaskListViewState extends State<TaskListView> {
             Navigator.pop(context, taskList);
           },
         ),
-
         leadingWidth: 80,
         title: const Text(
           'Todo List',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.w400, fontSize: 22),
         ),
-
         actions: [
           Container(
             padding: const EdgeInsets.only(right: 25),
@@ -55,6 +58,7 @@ class _TaskListViewState extends State<TaskListView> {
           ),
         ],
       ),
+
 
       body: Column(
         children: <Widget>[
@@ -80,46 +84,35 @@ class _TaskListViewState extends State<TaskListView> {
             ),
           ),
 
+
           Expanded(
             flex: 3,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ...taskList.map((task) {
+                  ...taskList.map((_task) {
                     return GestureDetector(
                       onTap: () async {
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   '/taskDetail',
-                        //     arguments: task);
-
-                        Map<String, Object>? data = await Navigator.push(
+                        Task? task = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const TasksDetailView(),
                             settings: RouteSettings(
-                                arguments: task, name: '/taskDetail'),
+                                arguments: _task, name: '/taskDetail'),
                           ),
                         );
-                        if (data != null) {
-                          int index = taskList.indexOf(task);
+
+                        if (task != null) {
 
                           setState(() {
-                            if (data['name'] != '' &&
-                                data['description'] != '' &&
-                                data['date'] != null) {
-                              taskList[index] = Task(
-                                  data['name'] as String,
-                                  data['description'] as String,
-                                  DateFormat('MMM dd, yyyy')
-                                      .parse(data['date'] as String),
-                                  getRandomColor());
-                            }
+                            _task.title = task.title;
+                            _task.description = task.description;
+                            _task.dueDate = task.dueDate;
+                            _task.status = task.status;
                           });
                         }
                       },
-
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
@@ -131,12 +124,10 @@ class _TaskListViewState extends State<TaskListView> {
                             ),
                           ],
                         ),
-
                         margin: const EdgeInsets.symmetric(
                           horizontal: 18,
                           vertical: 10,
                         ),
-
                         child: Card(
                           surfaceTintColor: Colors.white,
                           borderOnForeground: true,
@@ -147,48 +138,43 @@ class _TaskListViewState extends State<TaskListView> {
                                 horizontal: 20, vertical: 15),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
-
                             leading: Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Text(
-                                task.title[0].toUpperCase(),
+                                _task.title[0].toUpperCase(),
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 25,
                                     fontWeight: FontWeight.w400),
                               ),
                             ),
-
                             title: SizedBox(
                               width: 10,
                               child: Text(
-                                task.title,
+                                _task.title,
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-
                             trailing: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.end,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
-                                  formatDate(task.dueDate),
+                                  formatDate(_task.dueDate!),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400),
                                 ),
-
                                 const SizedBox(width: 10),
-
                                 Container(
                                   height: 50,
                                   width: 4,
                                   decoration: BoxDecoration(
-                                    color: getRandomColor(),
+                                    color: statusColors[_task.status.index],
                                     borderRadius: BorderRadius.circular(2),
                                   ),
                                 ),
@@ -204,7 +190,7 @@ class _TaskListViewState extends State<TaskListView> {
             ),
           ),
 
-
+          
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 40),
@@ -219,24 +205,24 @@ class _TaskListViewState extends State<TaskListView> {
                 ),
                 onPressed: () async {
                   // Route to Task Detail
-                  // Map<String, Object>? data =
-                  dynamic data = await Navigator.pushNamed(context, '/newTask');
+                  // Map<String, Object>? task =
+                  Task? task =
+                      await Navigator.pushNamed(context, '/newTask') as Task?;
 
-                  if (data != null) {
+                  if (task != null) {
                     setState(() {
-                      if (data['name'] != '' &&
-                          data['description'] != '' &&
-                          data['date'] != null) {
+                      if (task.title != '' &&
+                          task.description != '' &&
+                          task.dueDate != null) {
                         taskList.add(Task(
-                            data['name'] as String,
-                            data['description'] as String,
-                            data['date'] as DateTime,
-                            getRandomColor()));
+                          task.title,
+                          task.description,
+                          task.dueDate,
+                        ));
                       }
                     });
                   }
                 },
-                
                 child: const Text(
                   'Create Task',
                   style: TextStyle(

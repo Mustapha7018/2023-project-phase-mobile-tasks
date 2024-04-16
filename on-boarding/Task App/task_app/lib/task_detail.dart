@@ -10,18 +10,30 @@ class TasksDetailView extends StatefulWidget {
 }
 
 class _TasksDetailViewState extends State<TasksDetailView> {
+  String formatDate(DateTime date) {
+    final formater = DateFormat('MMM dd, yyy');
+    return formater.format(date);
+  }
+
   DateTime? dueDate;
+  String title = '';
+  String description = '';
+  TaskStatus? selectedValue;
+
+  void fillData(Task task) {
+    dueDate = task.dueDate;
+    title = task.title;
+    description = task.description;
+    selectedValue = task.status;
+  }
 
   @override
   Widget build(BuildContext context) {
     final task = ModalRoute.of(context)!.settings.arguments as Task;
-    final TextEditingController titleController =
-        TextEditingController(text: task.title);
-    final TextEditingController descriptionController =
-        TextEditingController(text: task.description);
-    final TextEditingController deadlineController = TextEditingController(
-        text: DateFormat('MMM dd, yyyy')
-            .format(dueDate == null ? task.dueDate : dueDate!));
+
+    if (title == '' && description == '' && dueDate == null && selectedValue == null) {
+      fillData(task);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +49,6 @@ class _TasksDetailViewState extends State<TasksDetailView> {
             Navigator.pop(context);
           },
         ),
-
         leadingWidth: 80,
         title: const Text(
           'Task Detail',
@@ -56,15 +67,16 @@ class _TasksDetailViewState extends State<TasksDetailView> {
         ],
       ),
 
+
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 240,
+              height: 220,
               child: Center(
                 child: Image.asset(
                   'assets/shopping_list.png',
-                  ),
+                ),
               ),
             ),
 
@@ -77,6 +89,7 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                     'Title',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
+
                   Container(
                     margin: const EdgeInsets.only(top: 15, bottom: 30),
                     decoration: BoxDecoration(
@@ -84,7 +97,10 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: TextFormField(
-                      controller: titleController,
+                      onChanged: (val) {
+                        title = val;
+                      },
+                      controller: TextEditingController(text: title),
                       keyboardType: TextInputType.name,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
@@ -95,6 +111,7 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                       ),
                     ),
                   ),
+
 
                   const Text(
                     'Description',
@@ -109,7 +126,10 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: TextFormField(
-                      controller: descriptionController,
+                      onChanged: (val) {
+                        description = val;
+                      },
+                      controller: TextEditingController(text: description),
                       keyboardType: TextInputType.multiline,
                       maxLines:
                           null, // Allows the input field to expand as needed
@@ -123,19 +143,21 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                     ),
                   ),
 
+
                   const Text(
                     'Deadline',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
 
                   Container(
-                    margin: const EdgeInsets.only(top: 15),
+                    margin: const EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(
                       color: const Color.fromRGBO(241, 238, 238, 1),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: TextFormField(
-                      controller: deadlineController,
+                      controller:
+                          TextEditingController(text: formatDate(dueDate!)),
                       keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -171,6 +193,68 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                     ),
                   ),
 
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  const Text(
+                    'Status',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+
+                  Container(
+                    // height: 150,
+                    margin: const EdgeInsets.only(top: 20),
+                    child: DropdownButtonFormField<TaskStatus>(
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 25, horizontal: 15),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: const Color.fromRGBO(241, 238, 238, 1),
+                      ),
+                      dropdownColor: const Color.fromRGBO(241, 238, 238, 1),
+                      value: selectedValue,
+                      onChanged: (TaskStatus? newValue) {
+                        setState(() {
+                          selectedValue = newValue!;
+                        });
+                      },
+                      itemHeight: 50,
+                      items: const <DropdownMenuItem<TaskStatus>>[
+                        DropdownMenuItem<TaskStatus>(
+                          value: TaskStatus.inProgress,
+                          child: Text(
+                            'In Progress',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        DropdownMenuItem<TaskStatus>(
+                          value: TaskStatus.notStarted,
+                          child: Text(
+                            'Not Started',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        DropdownMenuItem<TaskStatus>(
+                          value: TaskStatus.completed,
+                          child: Text(
+                            'Completed',
+                            style: TextStyle(fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+
                   Center(
                     child: Container(
                       margin: const EdgeInsets.only(top: 60),
@@ -185,21 +269,16 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                           backgroundColor:
                               const Color.fromRGBO(238, 111, 87, 1),
                         ),
-
                         onPressed: () {
-                          // Route to Task Detail
-                          // Navigator.popUntil(context, '/taskList', arguments: task);
-                          Map<String, Object> data = {
-                            'name': titleController.text,
-                            'description': descriptionController.text,
-                            'date': deadlineController.text,
-                          };
-                          // print(deadlineController.text);
-                          // print(data);
+                          Task data = Task(
+                            title,
+                            description,
+                            dueDate,
+                            status: selectedValue!,
+                          );
+
                           Navigator.pop(context, data);
-                          // Navigator.pop(context);
                         },
-                        
                         child: const Text(
                           'Update Task',
                           style: TextStyle(

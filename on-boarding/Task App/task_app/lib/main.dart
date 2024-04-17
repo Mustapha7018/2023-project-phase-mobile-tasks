@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:task_app/customs/animations/custom_animations.dart';
-import 'package:task_app/new_task.dart';
-import 'package:task_app/splash.dart';
-import 'package:task_app/task_detail.dart';
-import 'package:task_app/task_list.dart';
+import 'package:task_app/core/utils/custom_animations.dart';
+import 'package:task_app/features/to_do/presentation/pages/new_task.dart';
+import 'package:task_app/features/to_do/presentation/pages/splash.dart';
+import 'package:task_app/features/to_do/presentation/pages/task_detail.dart';
+import 'package:task_app/features/to_do/presentation/pages/task_list.dart';
 
 void main() {
   runApp(

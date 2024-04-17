@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:task_app/customs/functions/add_task.dart';
-import 'package:task_app/task_detail.dart';
-import 'package:task_app/task_list.dart';
+import 'package:task_app/features/to_do/domain/entities/add_task.dart';
+import 'package:task_app/features/to_do/presentation/pages/task_detail.dart';
+import 'package:task_app/features/to_do/presentation/pages/task_list.dart';
 
 import 'utils.dart';
 

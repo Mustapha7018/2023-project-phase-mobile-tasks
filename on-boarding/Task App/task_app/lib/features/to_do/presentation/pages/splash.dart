@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:task_app/customs/functions/add_task.dart';
+
+import '../widgets/custom_button.dart';
 
 class SplashScreenView extends StatelessWidget {
   const SplashScreenView({super.key});
@@ -14,39 +15,25 @@ class SplashScreenView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+
               Expanded(
                 flex: 7,
                 child: Image.asset(
                   key: const Key('Stickman Image'),
                   'assets/stick_man.png',
-                  ),
+                ),
               ),
               
               Expanded(
                 flex: 1,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 25),
-                  child: ElevatedButton(
-                    key: const Key('Elevated Button'),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 120),
-                      backgroundColor: const Color.fromRGBO(12, 140, 233, 1),
-                    ),
+                  child: CustomElevatedButton(
+                    text: 'Get Started',
                     onPressed: () {
                       // Route to Task Lists
                       Navigator.pushNamed(context, '/taskList');
                     },
-                    child: const Text(
-                      'Get Started',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                   ),
                 ),
               )

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:intl/intl.dart';
+import '../../../../core/utils/date_format.dart';
+import '../../domain/entities/add_task.dart';
+import '../widgets/custom_appbar.dart';
+import '../widgets/custom_button.dart';
+import 'task_detail.dart';
 
-import 'package:task_app/customs/functions/add_task.dart';
-import 'package:task_app/task_detail.dart';
 
 class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
@@ -18,18 +20,12 @@ class _TaskListViewState extends State<TaskListView> {
     const Color.fromRGBO(255, 81, 81, 1),
     const Color.fromRGBO(251, 195, 67, 1),
     const Color.fromRGBO(59, 219, 56, 1)
-    ];
-
-  String formatDate(DateTime date) {
-    final formater = DateFormat('MMM dd, yyy');
-    return formater.format(date);
-  }
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
+      appBar: CustomAppBar(
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new,
@@ -41,22 +37,15 @@ class _TaskListViewState extends State<TaskListView> {
             Navigator.pop(context, taskList);
           },
         ),
-        leadingWidth: 80,
+
         title: const Text(
-          'Todo List',
+          'Task List',
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.w400, fontSize: 22),
-        ),
-        actions: [
-          Container(
-            padding: const EdgeInsets.only(right: 25),
-            child: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-              size: 35,
-            ),
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+            fontSize: 22,
           ),
-        ],
+        ),
       ),
 
 
@@ -84,14 +73,13 @@ class _TaskListViewState extends State<TaskListView> {
             ),
           ),
 
-
           Expanded(
             flex: 3,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ...taskList.map((_task) {
+                  ...taskList.reversed.map((_task) {
                     return GestureDetector(
                       onTap: () async {
                         Task? task = await Navigator.push(
@@ -104,7 +92,6 @@ class _TaskListViewState extends State<TaskListView> {
                         );
 
                         if (task != null) {
-
                           setState(() {
                             _task.title = task.title;
                             _task.description = task.description;
@@ -139,7 +126,7 @@ class _TaskListViewState extends State<TaskListView> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30)),
                             leading: Padding(
-                              padding: const EdgeInsets.only(left: 10),
+                              padding: const EdgeInsets.only(left: 5),
                               child: Text(
                                 _task.title[0].toUpperCase(),
                                 style: const TextStyle(
@@ -194,18 +181,11 @@ class _TaskListViewState extends State<TaskListView> {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 40),
-              child: ElevatedButton(
+              child: CustomElevatedButton(
                 key: const Key('Create Task Button'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
-                  backgroundColor: const Color.fromRGBO(238, 111, 87, 1),
-                ),
+                text: 'Create Task',
                 onPressed: () async {
-                  // Route to Task Detail
-                  // Map<String, Object>? task =
+                  // Route to New Task
                   Task? task =
                       await Navigator.pushNamed(context, '/newTask') as Task?;
 
@@ -223,13 +203,13 @@ class _TaskListViewState extends State<TaskListView> {
                     });
                   }
                 },
-                child: const Text(
-                  'Create Task',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                backgroundColor: const Color.fromRGBO(238, 111, 87, 1),
+                borderRadius: 5.0,
+                padding: const EdgeInsets.symmetric(horizontal: 100),
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

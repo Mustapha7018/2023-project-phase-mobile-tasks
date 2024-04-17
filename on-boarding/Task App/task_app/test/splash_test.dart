@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:task_app/splash.dart';
+import 'package:task_app/features/to_do/presentation/pages/splash.dart';
 import 'utils.dart';
 
 void main() {

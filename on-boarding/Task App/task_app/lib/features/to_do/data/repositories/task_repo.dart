@@ -8,7 +8,6 @@ class TaskRepository {
   final List<Task> _tasks = [];
   int _counter = 1;
 
-
   Future<Either<Failure, String>> createTask(
       String? title, String? description, DateTime dueDate) async {
     try {
@@ -27,9 +26,8 @@ class TaskRepository {
             Failure(message: 'Invalid input: Fields must not be empty'));
       }
     } catch (e) {
-      return Left(Failure(
-          message:
-              'An error occurred while creating the task: ${e.toString()}'));
+      return const Left(
+          Failure(message: 'An error occurred while creating the task'));
     }
   }
 
@@ -39,6 +37,17 @@ class TaskRepository {
       return Right(_tasks);
     } else {
       return const Left(Failure(message: 'No tasks available'));
+    }
+  }
+
+
+  Future<Either<Failure, Task>> viewTask(int id) async {
+    try {
+      final Task task = _tasks.firstWhere((task) => task.id == id);
+      return Right(task);
+    } catch (e) {
+      return const Left(
+          Failure(message: 'An error occurred while retrieving the task'));
     }
   }
 
@@ -54,7 +63,7 @@ class TaskRepository {
           Failure(message: 'An error occurred while updating the task'));
     }
   }
-
+  
 
   Future<Either<Failure, String>> deleteTask(int id) async {
     try {

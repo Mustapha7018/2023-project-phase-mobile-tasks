@@ -1,13 +1,14 @@
 enum TaskStatus { notStarted, inProgress, completed }
 
 class Task {
+  final int id;
   String title, description;
   DateTime? dueDate;
   TaskStatus status;
 
   // constructor
-  Task(this.title, this.description, this.dueDate,
-      {this.status = TaskStatus.notStarted});
+  Task({required this.id, required this.title, required this.description, this.dueDate,
+      this.status = TaskStatus.notStarted});
 
 
   @override

@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart' hide Task;
+
+import '../../../../core/errors/failure.dart';
 import '../entities/add_task.dart';
 import '../repositories/task_repo.dart';
 
@@ -6,7 +9,7 @@ class AddTask {
 
   AddTask(this.repository);
 
-  Task call(String title, String description, DateTime? dueDate) {
-    return repository.addTask(title, description, dueDate);
+  Future<Either<Failure, Task>> call(String title, String description, DateTime? dueDate) {
+    return repository.addTask(title, description, dueDate!);
   }
 }

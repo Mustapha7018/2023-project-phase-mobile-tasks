@@ -33,7 +33,8 @@ void main() {
 
   testWidgets('Test Task Details', (WidgetTester tester) async {
     final key = GlobalKey<NavigatorState>();
-    final args = Task('My task', 'abc', DateTime.now());
+    final args = Task(
+        id: 1, title: 'My task', description: 'abc', dueDate: DateTime.now());
     await tester.pumpWidget(
       MaterialApp(
         navigatorKey: key,

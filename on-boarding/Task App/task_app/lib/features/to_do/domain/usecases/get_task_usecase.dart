@@ -5,12 +5,12 @@ import '../entities/add_task.dart';
 import '../repositories/task_repo.dart';
 
 
-class GetAllTasks {
+class GetTask {
   final TaskRepository repository;
 
-  GetAllTasks(this.repository);
+  GetTask(this.repository);
 
-  Future<Either<Failure, List<Task>>> call() {
-    return repository.getAllTasks();
+  Future<Either<Failure, Task>> call(int id) {
+    return repository.getTask(id);
   }
 }

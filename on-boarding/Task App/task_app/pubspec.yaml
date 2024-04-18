@@ -20,6 +20,7 @@ dependencies:
   dartz: ^0.10.1
   shared_preferences: ^2.2.3
   http: ^1.2.1
+  data_connection_checker_nulls: ^0.0.2
 
 
 dev_dependencies:

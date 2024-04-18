@@ -21,6 +21,7 @@ class SharedPreferencesTaskLocalDataSource implements TaskLocalDataSource {
     tasksMap['task_${task.id}'] = task.toJson();
     await sharedPreferences.setString(cachedTaskKey, json.encode(tasksMap));
   }
+  
 
   @override
   Future<Either<Failure, TaskModel>> getTask(int id) async {
@@ -37,16 +38,56 @@ class SharedPreferencesTaskLocalDataSource implements TaskLocalDataSource {
     }
   }
 
+
   @override
   Future<Either<Failure, List<TaskModel>>> getAllTasks() async {
     try {
-        final cachedTasks = sharedPreferences.getString(cachedTaskKey) ?? '{}';
-        final tasksMap = json.decode(cachedTasks) as Map<String, dynamic>;
-        List<TaskModel> tasks = tasksMap.values.map((taskJson) => TaskModel.fromJson(taskJson)).toList();
-        return Right(tasks);
+      final cachedTasks = sharedPreferences.getString(cachedTaskKey) ?? '{}';
+      final tasksMap = json.decode(cachedTasks) as Map<String, dynamic>;
+      List<TaskModel> tasks = tasksMap.values
+          .map((taskJson) => TaskModel.fromJson(taskJson))
+          .toList();
+      return Right(tasks);
     } catch (e) {
-        return const Left(Failure(message: 'Failed to retrieve tasks'));
+      return const Left(Failure(message: 'Failed to retrieve tasks'));
     }
-}
+  }
 
+
+  @override
+  Future<Either<Failure, void>> updateTask(TaskModel taskToUpdate) async {
+    try {
+      final cachedTasks = sharedPreferences.getString(cachedTaskKey) ?? '{}';
+      final tasksMap = json.decode(cachedTasks) as Map<String, dynamic>;
+
+      if (tasksMap.containsKey('task_${taskToUpdate.id}')) {
+        tasksMap['task_${taskToUpdate.id}'] = taskToUpdate.toJson();
+        await sharedPreferences.setString(cachedTaskKey, json.encode(tasksMap));
+        return const Right(null);
+      } else {
+        return const Left(Failure(message: 'Task not found'));
+      }
+    } catch (e) {
+      return const Left(Failure(message: 'Failed to update task'));
+    }
+  }
+
+
+  @override
+  Future<Either<Failure, void>> deleteTask(int id) async {
+    try {
+      final cachedTasks = sharedPreferences.getString(cachedTaskKey) ?? '{}';
+      final tasksMap = json.decode(cachedTasks) as Map<String, dynamic>;
+
+      if (tasksMap.containsKey('task_$id')) {
+        tasksMap.remove('task_$id');
+        await sharedPreferences.setString(cachedTaskKey, json.encode(tasksMap));
+        return const Right(null);
+      } else {
+        return const Left(Failure(message: 'Task not found'));
+      }
+    } catch (e) {
+      return const Left(Failure(message: 'Failed to delete task'));
+    }
+  }
 }

@@ -8,4 +8,6 @@ abstract class TaskLocalDataSource {
   Future<void> cacheTask(TaskModel task);  
   Future<Either<Failure, TaskModel>> getTask(int id);  
   Future<Either<Failure, List<TaskModel>>> getAllTasks();
+  Future<Either<Failure, void>> updateTask(TaskModel taskToUpdate);
+  Future<Either<Failure, void>> deleteTask(int id);
 }

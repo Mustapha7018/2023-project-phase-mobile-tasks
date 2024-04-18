@@ -5,8 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_app/features/to_do/data/models/todo_model.dart';
 
 import '../../../../core/errors/failure.dart';
-import '../datasources/local_data_source.dart';
-
+import 'local_interface.dart';
 
 class SharedPreferencesTaskLocalDataSource implements TaskLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -37,5 +36,17 @@ class SharedPreferencesTaskLocalDataSource implements TaskLocalDataSource {
       return const Left(Failure(message: 'Failed to retrieve task'));
     }
   }
+
+  @override
+  Future<Either<Failure, List<TaskModel>>> getAllTasks() async {
+    try {
+        final cachedTasks = sharedPreferences.getString(cachedTaskKey) ?? '{}';
+        final tasksMap = json.decode(cachedTasks) as Map<String, dynamic>;
+        List<TaskModel> tasks = tasksMap.values.map((taskJson) => TaskModel.fromJson(taskJson)).toList();
+        return Right(tasks);
+    } catch (e) {
+        return const Left(Failure(message: 'Failed to retrieve tasks'));
+    }
+}
 
 }

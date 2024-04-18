@@ -6,7 +6,7 @@ class TaskRepository {
   final List<Task> _tasks = [];
   int _counter = 1;
 
-  Future<Either<Failure, String>> createTask(
+  Future<Either<Failure, String>> addTask(
       String? title, String? description, DateTime dueDate) async {
     try {
       if (title != null &&
@@ -29,7 +29,7 @@ class TaskRepository {
     }
   }
 
-  Future<Either<Failure, List<Task>>> viewAllTasks() async {
+  Future<Either<Failure, List<Task>>> getAllTasks() async {
     if (_tasks.isNotEmpty) {
       return Right(_tasks);
     } else {
@@ -37,7 +37,7 @@ class TaskRepository {
     }
   }
 
-  Future<Either<Failure, Task>> viewTask(int id) async {
+  Future<Either<Failure, Task>> getTask(int id) async {
 
     try{
     var task = _tasks.firstWhere((t) => t.id == id);

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failure.dart';
-import '../repositories/task_repo.dart';
+import '../repositories/domain_task_repo.dart';
 
 
 class DeleteTask {

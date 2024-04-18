@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:task_app/features/to_do/data/models/todo_model.dart';
 
-import '../datasources/remote_data_source.dart';
+import 'remote_interface.dart';
 
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
   final http.Client client;

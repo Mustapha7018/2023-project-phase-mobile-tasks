@@ -2,13 +2,14 @@
 
 ## About the App 📖
 
-Task App is a mobile application designed to help users manage their daily tasks efficiently. With this app, users can add, edit, and view tasks in a simple and intuitive interface.
+Task App is a mobile application designed to help users manage their daily tasks efficiently. With this app, users can perform CRUD (Create, Read, Update and Delete) operations in a simple and intuitive interface.
 
 ## Features 🌟
 
 - **Create Tasks:** Add new tasks by providing the name, description and deadline of task.
 - **Edit Tasks:** Update details of existing tasks.
 - **View Tasks:** Browse through a list of all your tasks.
+- **Delete Tasks:** Delete existing task.
 
 ## Getting Started 🚀
 

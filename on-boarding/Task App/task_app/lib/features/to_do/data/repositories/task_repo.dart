@@ -1,70 +1,69 @@
-import 'package:dartz/dartz.dart' hide Task;
+import 'package:dartz/dartz.dart';
+
 import '../../../../core/errors/failure.dart';
-import '../../domain/entities/add_task.dart';
+import '../../../../core/exceptions/exceptions.dart';
+import '../datasources/local_interface.dart';
+import '../models/todo_model.dart';
+
+
+/// [DateTime.now().millisecondsSinceEpoch] generates a unique ID using DateTime
+
 
 class TaskRepository {
-  final List<Task> _tasks = [];
-  int _counter = 1;
+  final TaskLocalDataSource dataSource;
 
-  Future<Either<Failure, String>> addTask(
+  TaskRepository(this.dataSource);
+
+  Future<String> addTask(
       String? title, String? description, DateTime dueDate) async {
+    if (title == null ||
+        title.isEmpty ||
+        description == null ||
+        description.isEmpty) {
+      throw CacheFailure(message: 'Invalid input: Fields must not be empty');
+    }
     try {
-      if (title != null &&
-          title.isNotEmpty &&
-          description != null &&
-          description.isNotEmpty) {
-        _tasks.add(Task(
-            id: _counter++,
-            title: title,
-            description: description,
-            dueDate: dueDate));
-        return const Right('Task Added Successfully');
-      } else {
-        return const Left(
-            Failure(message: 'Invalid input: Fields must not be empty'));
-      }
+      TaskModel task = TaskModel(
+          id: DateTime.now().millisecondsSinceEpoch,
+          title: title,
+          description: description,
+          dueDate: dueDate);
+      await dataSource.cacheTask(task);
+      return 'Task Added Successfully';
     } catch (e) {
-      return const Left(
-          Failure(message: 'An error occurred while creating the task'));
+      throw CacheFailure(message: 'Failed to cache the task');
     }
   }
 
-  Future<Either<Failure, List<Task>>> getAllTasks() async {
-    if (_tasks.isNotEmpty) {
-      return Right(_tasks);
-    } else {
-      return const Left(Failure(message: 'No tasks available'));
-    }
+  Future<List<TaskModel>> getAllTasks() async {
+    Either<Failure, List<TaskModel>> result = await dataSource.getAllTasks();
+    return result.fold(
+        (failure) =>
+            throw CacheFailure(message: 'Failed to retrieve tasks from cache'),
+        (taskList) => taskList);
   }
 
-  Future<Either<Failure, Task>> getTask(int id) async {
-
-    try{
-    var task = _tasks.firstWhere((t) => t.id == id);
-    return Right(task);
-
-    } catch(e) {
-      return const Left(Failure(message: 'Task not found'));
-    }
-    }
-
-  Future<Either<Failure, void>> updateTask(Task taskToUpdate) async {
-    int index = _tasks.indexWhere((t) => t.id == taskToUpdate.id);
-    if (index != -1) {
-      _tasks[index] = taskToUpdate;
-      return const Right(null); 
-    } else {
-      return const Left(Failure(message: 'Task not found'));
-    }
+  Future<TaskModel> getTask(int id) async {
+    Either<Failure, TaskModel> result = await dataSource.getTask(id);
+    return result.fold(
+        (failure) => throw CacheFailure(message: 'Task not found in cache'),
+        (task) => task);
   }
 
-  Future<Either<Failure, void>> deleteTask(int id) async {
-    int index = _tasks.indexWhere((t) => t.id == id);
-    if (index != -1) {
-      _tasks.removeAt(index);
-      return const Right(null);
-    } else {
-      return const Left(Failure(message: 'Task not found'));
-    }
+  Future<void> updateTask(TaskModel taskToUpdate) async {
+    Either<Failure, void> result = await dataSource.updateTask(taskToUpdate);
+    return result.fold(
+        (failure) =>
+            throw CacheFailure(message: 'Failed to update the task in cache'),
+        (r) => r);
+  }
+
+  Future<void> deleteTask(int id) async {
+    Either<Failure, void> result = await dataSource.deleteTask(id);
+    return result.fold(
+        (failure) => throw CacheFailure(
+            message:
+                'Failed to delete the task from cache'),
+        (r) => r);
   }
 }

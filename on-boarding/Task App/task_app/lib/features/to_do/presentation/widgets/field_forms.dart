@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/core/utils/accent_color.dart';
 
 class CustomLabelTextField extends StatelessWidget {
   final String label;
@@ -54,7 +55,7 @@ class CustomLabelTextField extends StatelessWidget {
                       child: IconButton(
                         icon: const Icon(
                           Icons.event,
-                          color: Color.fromRGBO(238, 111, 87, 1),
+                          color: AppColors.primaryColor,
                           size: 24,
                         ),
                         onPressed: onDatePressed,

@@ -24,7 +24,7 @@ class TaskModel extends Task {
       'id': id,
       'title': title,
       'description': description,
-      'dueDate': DateFormat("yyyy-MM-ddTHH:mm:ss").format(dueDate!),
+      'dueDate': DateFormat("yyyy-MM-ddTHH:mm:ss").format(dueDate),
     };
   }
 }

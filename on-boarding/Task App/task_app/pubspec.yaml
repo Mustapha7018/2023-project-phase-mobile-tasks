@@ -21,6 +21,8 @@ dependencies:
   shared_preferences: ^2.2.3
   http: ^1.2.1
   data_connection_checker_nulls: ^0.0.2
+  flutter_bloc: ^8.1.5
+  bloc: ^8.1.4
 
 
 dev_dependencies:

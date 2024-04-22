@@ -15,4 +15,3 @@ class CustomSlideAnimation extends PageRouteBuilder {
         child: child,
       );
 }
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/core/utils/accent_color.dart';
 
 class CustomLabelTextField extends StatelessWidget {
   final String labelText;
@@ -36,7 +37,7 @@ class CustomLabelTextField extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(238, 111, 87, 1),
+                color: AppColors.primaryColor,
               ),
               textAlign: TextAlign.left,
             ),
@@ -85,7 +86,7 @@ class CustomLabelTextField extends StatelessWidget {
                         ? IconButton(
                             icon: const Icon(
                               Icons.event,
-                              color: Color.fromRGBO(238, 111, 87, 1),
+                              color: AppColors.primaryColor,
                             ),
                             onPressed: onSuffixIconPressed,
                           )

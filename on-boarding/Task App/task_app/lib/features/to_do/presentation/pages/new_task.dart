@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/date_format.dart';
 import '../../domain/entities/add_task.dart';
+import '../../../../core/utils/accent_color.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/text_fields.dart';
@@ -112,15 +113,14 @@ class _NewTaskViewState extends State<NewTaskView> {
                         child: CustomElevatedButton(
                           text: 'Add Task',
                           onPressed: () {
-                            Task task = Task(
-                              name,
-                              description,
-                              date!,
-                            );
-                            Navigator.pop(context, task);
+                            // Task task = Task(
+                            //   name,
+                            //   description,
+                            //   date!,
+                            // );
+                            // Navigator.pop(context, task);
                           },
-                          backgroundColor:
-                              const Color.fromRGBO(238, 111, 87, 1),
+                          backgroundColor: AppColors.primaryColor,
                           borderRadius: 50.0,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 100, vertical: 15),

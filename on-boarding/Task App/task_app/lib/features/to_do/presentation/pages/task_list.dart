@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/date_format.dart';
 import '../../domain/entities/add_task.dart';
+import '../../../../core/utils/accent_color.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
-import 'task_detail.dart';
-
+import 'edit_task.dart';
 
 class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
@@ -29,7 +29,7 @@ class _TaskListViewState extends State<TaskListView> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new,
-            color: Color.fromRGBO(238, 111, 87, 1),
+            color: AppColors.primaryColor,
             size: 30,
           ),
           onPressed: () {
@@ -37,7 +37,6 @@ class _TaskListViewState extends State<TaskListView> {
             Navigator.pop(context, taskList);
           },
         ),
-
         title: const Text(
           'Task List',
           style: TextStyle(
@@ -47,8 +46,6 @@ class _TaskListViewState extends State<TaskListView> {
           ),
         ),
       ),
-
-
       body: Column(
         children: <Widget>[
           Expanded(
@@ -72,7 +69,6 @@ class _TaskListViewState extends State<TaskListView> {
               ],
             ),
           ),
-
           Expanded(
             flex: 3,
             child: SingleChildScrollView(
@@ -85,7 +81,7 @@ class _TaskListViewState extends State<TaskListView> {
                         Task? task = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const TasksDetailView(),
+                            builder: (context) => const EditTaskView(),
                             settings: RouteSettings(
                                 arguments: _task, name: '/taskDetail'),
                           ),
@@ -176,8 +172,6 @@ class _TaskListViewState extends State<TaskListView> {
               ),
             ),
           ),
-
-          
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 40),
@@ -186,22 +180,22 @@ class _TaskListViewState extends State<TaskListView> {
                 text: 'Create Task',
                 onPressed: () async {
                   // Route to New Task
-                  Task? task =
-                      await Navigator.pushNamed(context, '/newTask') as Task?;
+                  // Task? task =
+                  //     await Navigator.pushNamed(context, '/newTask') as Task?;
 
-                  if (task != null) {
-                    setState(() {
-                      if (task.title != '' &&
-                          task.description != '' &&
-                          task.dueDate != null) {
-                        taskList.add(Task(
-                          task.title,
-                          task.description,
-                          task.dueDate,
-                        ));
-                      }
-                    });
-                  }
+                  // if (task != null) {
+                  //   setState(() {
+                  //     if (task.title != '' &&
+                  //         task.description != '' &&
+                  //         task.dueDate != null) {
+                  //       taskList.add(Task(
+                  //         task.title,
+                  //         task.description,
+                  //         task.dueDate,
+                  //       ));
+                  //     }
+                  //   });
+                  // }
                 },
                 backgroundColor: const Color.fromRGBO(238, 111, 87, 1),
                 borderRadius: 5.0,

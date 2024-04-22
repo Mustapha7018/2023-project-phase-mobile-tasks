@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/core/utils/accent_color.dart';
 
 import '../widgets/custom_button.dart';
 
@@ -8,7 +9,7 @@ class SplashScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(238, 111, 87, 1),
+      backgroundColor: AppColors.primaryColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Center(

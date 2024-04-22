@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/date_format.dart';
 import '../../domain/entities/add_task.dart';
+import '../../../../core/utils/accent_color.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/field_forms.dart';
 
-class TasksDetailView extends StatefulWidget {
-  const TasksDetailView({super.key});
+class ViewTaskView extends StatefulWidget {
+  const ViewTaskView({super.key});
 
   @override
-  State<TasksDetailView> createState() => _TasksDetailViewState();
+  State<ViewTaskView> createState() => _ViewTaskViewState();
 }
 
-class _TasksDetailViewState extends State<TasksDetailView> {
+class _ViewTaskViewState extends State<ViewTaskView> {
   DateTime? dueDate;
   String title = '';
   String description = '';
@@ -42,7 +43,7 @@ class _TasksDetailViewState extends State<TasksDetailView> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new,
-            color: Color.fromRGBO(238, 111, 87, 1),
+            color: AppColors.primaryColor,
             size: 30,
           ),
           onPressed: () {
@@ -50,7 +51,6 @@ class _TasksDetailViewState extends State<TasksDetailView> {
             Navigator.pop(context);
           },
         ),
-
         title: const Text(
           'Edit Task',
           style: TextStyle(
@@ -60,8 +60,6 @@ class _TasksDetailViewState extends State<TasksDetailView> {
           ),
         ),
       ),
-
-
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -73,8 +71,6 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                 ),
               ),
             ),
-
-
             Padding(
               padding: const EdgeInsets.all(30),
               child: Column(
@@ -88,7 +84,6 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                     },
                     keyboardType: TextInputType.name,
                   ),
-
                   CustomLabelTextField(
                     label: 'Description',
                     initialValue: description,
@@ -98,7 +93,6 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                     keyboardType: TextInputType.multiline,
                     maxLines: 3,
                   ),
-
                   CustomLabelTextField(
                     label: 'Deadline',
                     initialValue: formatDate(dueDate!),
@@ -119,16 +113,13 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                       }
                     },
                   ),
-
                   const SizedBox(
                     height: 10,
                   ),
-
                   const Text(
                     'Status',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
-
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     child: DropdownButtonFormField<TaskStatus>(
@@ -179,25 +170,22 @@ class _TasksDetailViewState extends State<TasksDetailView> {
                       ],
                     ),
                   ),
-
-                  
                   Center(
                     child: Container(
                         margin: const EdgeInsets.only(top: 60),
                         child: CustomElevatedButton(
-                          text: 'Update Task',
+                          text: 'Edit Task',
                           onPressed: () {
-                            Task data = Task(
-                              title,
-                              description,
-                              dueDate,
-                              status: selectedValue!,
-                            );
+                            // Task data = Task(
+                            //   title,
+                            //   description,
+                            //   dueDate,
+                            //   status: selectedValue!,
+                            // );
 
-                            Navigator.pop(context, data);
+                            // Navigator.pop(context, data);
                           },
-                          backgroundColor:
-                              const Color.fromRGBO(238, 111, 87, 1),
+                          backgroundColor: AppColors.primaryColor,
                           borderRadius: 50.0,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 100, vertical: 15),

@@ -8,7 +8,7 @@ import '../widgets/custom_button.dart';
 import '../widgets/field_forms.dart';
 
 class EditTaskView extends StatefulWidget {
-  const EditTaskView({super.key, required Task task});
+  const EditTaskView({super.key});
 
   @override
   State<EditTaskView> createState() => _EditTaskViewState();

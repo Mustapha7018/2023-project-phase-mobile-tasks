@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/add_task.dart';
+import 'package:task_app/features/to_do/data/models/todo_model.dart';
 
 
 
@@ -11,12 +11,12 @@ class InitialState extends TaskState {}
 class LoadingState extends TaskState {}
 
 class LoadedAllTasksState extends TaskState {
-  final List<Task> tasks;
+  final List<TaskModel> tasks;
   LoadedAllTasksState(this.tasks);
 }
 
 class LoadedSingleTaskState extends TaskState {
-  final Task task;
+  final TaskModel task;
   LoadedSingleTaskState(this.task);
 }
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_app/features/to_do/presentation/pages/edit_task.dart';
 
 import '../../../../core/utils/date_format.dart';
 import '../../domain/entities/add_task.dart';
 import '../../../../core/utils/accent_color.dart';
+import '../bloc/task_bloc.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
-import 'edit_task.dart';
 
 class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
@@ -75,13 +77,14 @@ class _TaskListViewState extends State<TaskListView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // ignore: no_leading_underscores_for_local_identifiers
                   ...taskList.reversed.map((_task) {
                     return GestureDetector(
                       onTap: () async {
                         Task? task = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const EditTaskView(),
+                            builder: (context) => EditTaskView(task: _task),
                             settings: RouteSettings(
                                 arguments: _task, name: '/taskDetail'),
                           ),
@@ -146,7 +149,7 @@ class _TaskListViewState extends State<TaskListView> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Text(
-                                  formatDate(_task.dueDate!),
+                                  formatDate(_task.dueDate),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -179,25 +182,14 @@ class _TaskListViewState extends State<TaskListView> {
                 key: const Key('Create Task Button'),
                 text: 'Create Task',
                 onPressed: () async {
-                  // Route to New Task
-                  // Task? task =
-                  //     await Navigator.pushNamed(context, '/newTask') as Task?;
-
-                  // if (task != null) {
-                  //   setState(() {
-                  //     if (task.title != '' &&
-                  //         task.description != '' &&
-                  //         task.dueDate != null) {
-                  //       taskList.add(Task(
-                  //         task.title,
-                  //         task.description,
-                  //         task.dueDate,
-                  //       ));
-                  //     }
-                  //   });
-                  // }
+                  Task? newTask =
+                      await Navigator.pushNamed(context, '/newTask') as Task?;
+                  if (newTask != null) {
+                    // Add the new task to the BLoC
+                    context.read<TaskBloc>().add(TaskAdded(newTask));
+                  }
                 },
-                backgroundColor: const Color.fromRGBO(238, 111, 87, 1),
+                backgroundColor: AppColors.primaryColor,
                 borderRadius: 5.0,
                 padding: const EdgeInsets.symmetric(horizontal: 100),
                 textStyle: const TextStyle(

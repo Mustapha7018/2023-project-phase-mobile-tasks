@@ -1,31 +1,27 @@
-part of 'task_bloc.dart';
+import 'package:flutter/material.dart';
+import '../../data/models/todo_model.dart';
 
 @immutable
 abstract class TaskEvent {}
 
-class TaskAdded extends TaskEvent {
+class CreateTaskEvent extends TaskEvent {
   final TaskModel task;
-  TaskAdded(this.task);
+  CreateTaskEvent(this.task);
 }
 
-class TaskUpdated extends TaskEvent {
+class UpdateTaskEvent extends TaskEvent {
   final TaskModel task;
-  TaskUpdated(this.task);
+  UpdateTaskEvent(this.task);
 }
 
-class TaskDeleted extends TaskEvent {
+class DeleteTaskEvent extends TaskEvent {
   final int taskId;
-  TaskDeleted(this.taskId);
+  DeleteTaskEvent(this.taskId);
 }
 
-class TasksLoaded extends TaskEvent {}
+class LoadAllTasksEvent extends TaskEvent {}
 
-class TaskCompleted extends TaskEvent {
+class GetSingleTaskEvent extends TaskEvent {
   final int taskId;
-  TaskCompleted(this.taskId);
-}
-
-class TaskFetched extends TaskEvent {
-  final int taskId;
-  TaskFetched(this.taskId);
+  GetSingleTaskEvent(this.taskId);
 }

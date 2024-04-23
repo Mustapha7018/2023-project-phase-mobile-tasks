@@ -1,62 +1,69 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:task_app/features/to_do/presentation/bloc/task_event.dart';
+import 'package:task_app/features/to_do/presentation/bloc/task_state.dart';
+
 import '../../data/models/todo_model.dart';
 import '../../data/repositories/task_repo.dart';
 
-part 'task_event.dart';
-part 'task_state.dart';
 
-class TaskBloc extends Bloc<TaskEvent, TaskState> {
+class TodoBloc extends Bloc<TaskEvent, TaskState> {
   final TaskRepository repository;
 
-  TaskBloc({required this.repository}) : super(TaskInitial()) {
-    on<TasksLoaded>(_onTasksLoaded);
-    on<TaskAdded>(_onTaskAdded);
-    on<TaskUpdated>(_onTaskUpdated);
-    on<TaskDeleted>(_onTaskDeleted);
+  TodoBloc(this.repository) : super(InitialState()) {
+    on<LoadAllTasksEvent>(_onLoadAllTasks);
+    on<GetSingleTaskEvent>(_onGetSingleTask);
+    on<UpdateTaskEvent>(_onUpdateTask);
+    on<DeleteTaskEvent>(_onDeleteTask);
+    on<CreateTaskEvent>(_onCreateTask);
   }
 
-  Future<void> _onTasksLoaded(
-      TasksLoaded event, Emitter<TaskState> emit) async {
-    emit(TasksLoadInProgress());
+  void _onLoadAllTasks(LoadAllTasksEvent event, Emitter<TaskState> emit) async {
+    emit(LoadingState());
     try {
-      final tasks = await repository.getAllTasks();
-      emit(TasksLoadSuccess(tasks));
-    } catch (e) {
-      emit(TaskLoadFailure(e.toString()));
+      List<TaskModel> tasks = await repository.getAllTasks();
+      emit(LoadedAllTasksState(tasks));
+    } catch (failure) {
+      emit(ErrorState(failure.toString()));
     }
   }
 
-  Future<void> _onTaskAdded(TaskAdded event, Emitter<TaskState> emit) async {
+  void _onGetSingleTask(GetSingleTaskEvent event, Emitter<TaskState> emit) async {
+    emit(LoadingState());
     try {
-      await repository.addTask(
-          event.task.title, event.task.description, event.task.dueDate);
-      emit(TaskAddedSuccess(event.task));
-      add(TasksLoaded());
-    } catch (e) {
-      emit(TaskAddedFailure(e.toString()));
+      TaskModel task = await repository.getTask(event.taskId);
+      emit(LoadedSingleTaskState(task));
+    } catch (failure) {
+      emit(ErrorState(failure.toString()));
     }
   }
 
-  Future<void> _onTaskUpdated(
-      TaskUpdated event, Emitter<TaskState> emit) async {
+  void _onUpdateTask(UpdateTaskEvent event, Emitter<TaskState> emit) async {
+    emit(LoadingState());
     try {
       await repository.updateTask(event.task);
-      emit(TaskUpdatedSuccess(event.task));
-      add(TasksLoaded()); // Refresh the list
-    } catch (e) {
-      emit(TaskUpdatedFailure(e.toString()));
+      emit(LoadedSingleTaskState(event.task)); 
+    } catch (failure) {
+      emit(ErrorState(failure.toString()));
     }
   }
 
-  Future<void> _onTaskDeleted(
-      TaskDeleted event, Emitter<TaskState> emit) async {
+  void _onDeleteTask(DeleteTaskEvent event, Emitter<TaskState> emit) async {
+    emit(LoadingState());
     try {
       await repository.deleteTask(event.taskId);
-      emit(TaskDeletedSuccess(event.taskId));
-      add(TasksLoaded()); // Refresh the list
-    } catch (e) {
-      emit(TaskDeletedFailure(e.toString()));
+      emit(LoadedAllTasksState(await repository.getAllTasks())); 
+    } catch (failure) {
+      emit(ErrorState(failure.toString()));
+    }
+  }
+
+  void _onCreateTask(CreateTaskEvent event, Emitter<TaskState> emit) async {
+    emit(LoadingState());
+    try {
+      await repository.addTask(event.task.title, event.task.description, event.task.dueDate);
+      emit(LoadedSingleTaskState(event.task)); 
+    } catch (failure) {
+      emit(ErrorState(failure.toString()));
     }
   }
 }
